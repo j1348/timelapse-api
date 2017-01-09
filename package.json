@@ -1,0 +1,44 @@
+{
+  "name": "timelapse-api",
+  "version": "0.1.0",
+  "description": "Timelapse API",
+  "main": "app.js",
+  "scripts": {
+    "eslint": "eslint src --ignore-path ./.gitignore --ext=.js",
+    "test": "NODE_ENV=test ./node_modules/.bin/lab -l",
+    "test2": "NODE_ENV=test ./node_modules/.bin/lab -L",
+    "start": "node src/app.js"
+  },
+  "author": "me@jfroffice.me",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "2.3.0",
+    "bluebird": "3.0.5",
+    "boom": "2.9.0",
+    "dotenv": "4.0.0",
+    "glob": "6.0.1",
+    "good": "6.4.0",
+    "good-console": "5.2.0",
+    "good-file": "5.1.1",
+    "hapi": "14.x.x",
+    "hapi-auth-jwt2": "5.2.1",
+    "hapi-boom-decorators": "1.0.2",
+    "hapi-swagger": "^7.2.0",
+    "inert": "^4.0.2",
+    "joi": "9.1.1",
+    "jsonwebtoken": "5.4.1",
+    "kerberos": "0.0.22",
+    "mongoose": "4.2.7",
+    "shortid": "2.2.4",
+    "vision": "4.1.0"
+  },
+  "devDependencies": {
+    "chai": "3.3.0",
+    "coveralls": "2.11.4",
+    "eslint": "^3.13.0",
+    "eslint-config-airbnb-base": "^11.0.0",
+    "eslint-plugin-import": "^2.2.0",
+    "lab": "6.2.0",
+    "semistandard": "7.0.3"
+  }
+}
