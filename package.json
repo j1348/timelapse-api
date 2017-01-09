@@ -3,10 +3,13 @@
   "version": "0.1.0",
   "description": "Timelapse API",
   "main": "app.js",
+  "engines": {
+    "node": "6.9.2",
+    "npm": "3.10.9"
+  },
   "scripts": {
     "eslint": "eslint src --ignore-path ./.gitignore --ext=.js",
     "test": "NODE_ENV=test ./node_modules/.bin/lab -l",
-    "test2": "NODE_ENV=test ./node_modules/.bin/lab -L",
     "start": "node src/app.js"
   },
   "author": "me@jfroffice.me",

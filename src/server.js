@@ -12,10 +12,9 @@ const vision = require('vision');
 const Pack = require(path.join(__dirname, '../package'));
 const server = new Hapi.Server();
 
-// set the port for listening
 server.connection({
-  host: '0.0.0.0', // process.env.DB_1_PORT_27017_TCP_ADDR, //'localhost', //process.env.SERVER_HOST,
-  port: 7000, //process.env.SERVER_PORT
+  host: '0.0.0.0',
+  port:  process.env.PORT || 7000,
 });
 
 // Expose database
