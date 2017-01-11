@@ -13,22 +13,27 @@ const Pack = require(path.join(__dirname, '../package'));
 const server = new Hapi.Server();
 
 server.connection({
-  host: '0.0.0.0',
-  port:  process.env.PORT || 7000,
+    host: '0.0.0.0',
+    port:  process.env.PORT || 7000
 });
 
 // Expose database
 if (process.env.NODE_ENV === 'test') {
-  server.database = db;
+    server.database = db;
 }
 
 // load routes
 const plugins = fs.readdirSync(path.join(__dirname, './entities'))
-  .filter(dir => dir.match(/^[^.]/))
-  .map(entity => ({
-    register: require(`./entities/${entity}/${entity}-routes`),
-    options: { database: db },
-  }));
+    .filter(dir => dir.match(/^[^.]/))
+    .map(entity => ({
+        register: require(`./entities/${entity}/${entity}-routes`),
+        options: {
+            database: db,
+            cors: {
+                origin: ['*']  /* process.env.FRONT_URI */
+            }
+        },
+    }));
 
 plugins.push({ register: auth });
 plugins.push({ register: logs });
@@ -38,26 +43,26 @@ plugins.push({ register: boomDecorators });
 plugins.push({ register: inert });
 plugins.push({ register: vision });
 plugins.push({ register: HapiSwagger,
-  options: {
-    info: {
-      title: 'Timelapse API Documentation',
-      version: Pack.version,
-    },
-  },
+    options: {
+        info: {
+            title: 'Timelapse API Documentation',
+            version: Pack.version
+        }
+    }
 });
 
 server.register(plugins, (err) => {
-  if (err) {
-    throw err;
-  }
+    if (err) {
+        throw err;
+    }
 
   if (!module.parent) {
     server.start((err) => {
-      if (err) {
-        throw err;
-      }
+        if (err) {
+            throw err;
+        }
 
-      server.log('info', `Server running at: ${server.info.uri}`);
+        server.log('info', `Server running at: ${server.info.uri}`);
     });
   }
 });

@@ -67,17 +67,15 @@ function login(request, reply) {
         .findOneAsync({ email: credentials.email })
         .then((user) => {
           if (!user) {
-            return reply.redirect('/');
-                // return reply.unauthorized('Email or Password invalid');
+            return reply.unauthorized('Email or Password invalid');
           }
 
           if (!user.validatePassword(credentials.password)) {
-            return reply.redirect('/');
-                // return reply.unauthorized('Email or Password invalid');
+            return reply.unauthorized('Email or Password invalid');
           }
 
           const token = getToken(user.id);
-          return reply.redirect(`/?token=${token}`);  // reply({ token: token });
+          return reply.redirect(`${process.env.FRONT_URI}/?token=${token}`);
         })
         .catch((err) => {
           console.log('inside create => err');
