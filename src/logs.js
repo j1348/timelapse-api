@@ -8,13 +8,13 @@ exports.register = (server, options, next) => {
     reporters: [{
       reporter: GoodConsole,
       events: { error: '*', log: '*', response: '*', request: '*' },
-    }, {
-      reporter: GoodFile,
-      events: { ops: '*', error: '*' },
-      config: {
-        path: '../logs',
-        rotate: 'daily',
-      },
+    // }, {
+    //   reporter: GoodFile,
+    //   events: { ops: '*', error: '*' },
+    //   config: {
+    //     path: '../logs',
+    //     rotate: 'daily',
+    //   }
     }],
   };
 
