@@ -23,7 +23,7 @@
     "good": "6.4.0",
     "good-console": "5.2.0",
     "good-file": "5.1.1",
-    "hapi": "14.x.x",
+    "hapi": "16.x.x",
     "hapi-auth-jwt2": "5.2.1",
     "hapi-boom-decorators": "1.0.2",
     "hapi-swagger": "^7.2.0",

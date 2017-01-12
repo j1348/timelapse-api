@@ -14,7 +14,12 @@ const server = new Hapi.Server();
 
 server.connection({
     host: '0.0.0.0',
-    port:  process.env.PORT || 7000
+    port:  process.env.PORT || 7000,
+    routes: {
+        cors: {
+          origin: ['*']
+        }
+    }
 });
 
 // Expose database
@@ -28,10 +33,7 @@ const plugins = fs.readdirSync(path.join(__dirname, './entities'))
     .map(entity => ({
         register: require(`./entities/${entity}/${entity}-routes`),
         options: {
-            database: db,
-            cors: {
-                origin: ['*']  /* process.env.FRONT_URI */
-            }
+            database: db
         },
     }));
 
@@ -61,7 +63,6 @@ server.register(plugins, (err) => {
         if (err) {
             throw err;
         }
-
         server.log('info', `Server running at: ${server.info.uri}`);
     });
   }
