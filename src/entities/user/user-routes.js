@@ -9,18 +9,18 @@ exports.register = (server, options, next) => {
 
   server.bind(controller);
   server.route([
-    {
-      method: 'GET',
-      path: '/user',
-      config: {
-        tags: ['api'], // ADD THIS TAG
-        description: 'get user list',
-        notes: 'get user list',
-        auth: false,
-        handler: controller.list,
-        validate: Validator.list(),
-      },
-    },
+    // {
+    //   method: 'GET',
+    //   path: '/user',
+    //   config: {
+    //     tags: ['api'], // ADD THIS TAG
+    //     description: 'get user list',
+    //     notes: 'get user list',
+    //     auth: false,
+    //     handler: controller.list,
+    //     validate: Validator.list(),
+    //   },
+    // },
     {
       method: 'GET',
       path: '/user/{id}',

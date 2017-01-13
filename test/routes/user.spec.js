@@ -4,36 +4,36 @@
 let jwt = require('jsonwebtoken');
 
 describe('Routes /user', () => {
-  describe('GET /user', () => {
-    beforeEach((done) => {
-      db.User.removeAsync({})
-      .then(() => {
-        const options = {
-          method: 'POST',
-          url: '/user',
-          payload: {
-            name: 'User',
-            password: '12345678',
-            username: 'user',
-            email: 'user@example.com',
-          }
-        };
+  // describe('GET /user', () => {
+  //   beforeEach((done) => {
+  //     db.User.removeAsync({})
+  //     .then(() => {
+  //       const options = {
+  //         method: 'POST',
+  //         url: '/user',
+  //         payload: {
+  //           name: 'User',
+  //           password: '12345678',
+  //           username: 'user',
+  //           email: 'user@example.com',
+  //         }
+  //       };
 
-        server.inject(options, (response) => {});
-        done();
-      });
-    });
+  //       server.inject(options, (response) => {});
+  //       done();
+  //     });
+  //   });
 
-    it('return 200 HTTP status code', (done) => {
-      db.User.remove(() => {
-        const options = {method: 'GET', url: '/user'};
-        server.inject(options, (response) => {
-          expect(response).to.have.property('statusCode', 200);
-          done();
-        });
-      });
-    });
-  });
+  //   it('return 200 HTTP status code', (done) => {
+  //     db.User.remove(() => {
+  //       const options = {method: 'GET', url: '/user'};
+  //       server.inject(options, (response) => {
+  //         expect(response).to.have.property('statusCode', 200);
+  //         done();
+  //       });
+  //     });
+  //   });
+  // });
 
   // describe('POST /user/login', () => {
   //   it('return 400 HTTP status code', (done) => {
