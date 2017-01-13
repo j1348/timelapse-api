@@ -9,6 +9,7 @@
   },
   "scripts": {
     "eslint": "eslint src --ignore-path ./.gitignore --ext=.js",
+    "coveralls": "NODE_ENV=test ./node_modules/.bin/lab -c -l -r lcov | ./node_modules/.bin/coveralls",
     "test": "NODE_ENV=test ./node_modules/.bin/lab -l",
     "start": "node src/app.js"
   },
