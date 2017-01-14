@@ -1,5 +1,3 @@
-
-
 const Controller = require('./user-controller');
 const Validator = require('./user-schema');
 

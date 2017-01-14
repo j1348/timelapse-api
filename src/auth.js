@@ -5,7 +5,7 @@ const User = require('./database').User;
 exports.register = (server, options, next) => {
   function validate(decoded, request, cb) {
     return new Promise(() => {
-      User.findAsync({ _id: decoded.id })
+        User.findAsync({ _id: decoded.id })
             .then((user) => {
               if (!user) {
                 return cb(null, false);
@@ -19,13 +19,12 @@ exports.register = (server, options, next) => {
     if (err) { return next(err); }
 
     server.auth.strategy('jwt', 'jwt', {
-      key: process.env.JWT || 'stubJWT',
-      validateFunc: validate,
-      verifyOptions: { algorithms: ['HS256'] },
+        key: process.env.JWT || 'stubJWT',
+        validateFunc: validate,
+        verifyOptions: { algorithms: ['HS256'] },
     });
 
     server.auth.default('jwt');
-
     return next();
   }
 
