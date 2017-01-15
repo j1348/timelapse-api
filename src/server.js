@@ -12,6 +12,12 @@ const vision = require('vision');
 const version = require(path.join(__dirname, '../package')).version;
 const server = new Hapi.Server();
 
+
+// Expose database
+if (process.env.NODE_ENV === 'test') {
+    server.database = database;
+}
+
 server.connection({
     host: '0.0.0.0',
     port: process.env.PORT || 7000,
@@ -22,11 +28,6 @@ server.connection({
         }
     });
 
-// Expose database
-if (process.env.NODE_ENV === 'test') {
-    server.database = database;
-}
-
 // load routes
 const plugins = fs.readdirSync(path.join(__dirname, './entities'))
         .filter(dir => dir.match(/^[^.]/))
@@ -36,10 +37,6 @@ const plugins = fs.readdirSync(path.join(__dirname, './entities'))
                 database
             }
         }));
-
-plugins.push({ register: auth });
-plugins.push({ register: logs });
-plugins.push({ register: boomDecorators });
 
 // Hapi Swagger
 plugins.push({ register: inert });
@@ -52,20 +49,30 @@ plugins.push({ register: HapiSwagger,
         }
     }
 });
+plugins.push({ register: logs });
+plugins.push({ register: auth });
+plugins.push({ register: boomDecorators });
 
 server.register(plugins, (err) => {
     if (err) {
         throw err;
     }
 
-    if (!module.parent) {
-        server.start((err) => {
-            if (err) {
-                throw err;
-            }
-            server.log('info', `Server running at: ${server.info.uri}`);
-        });
-    }
+    // server.start((err) => {
+
+    //     console.log(err);
+    //     if (err) {
+    //         throw err;
+    //     }
+    //     server.log('info', `Server running at: ${server.info.uri}`);
+    // });
 });
+
+
+
+
+
+
+
 
 module.exports = server;
