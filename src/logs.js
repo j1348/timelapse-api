@@ -1,6 +1,7 @@
 const Good = require('good');
 const path = require('path');
-const release = require(path.join(__dirname, '../package')).version;
+const environment = process.env.NODE_ENV || 'development';
+const release = process.env.HEROKU_RELEASE_VERSION || require(path.join(__dirname, '../package')).version;
 const reporters = {
     myConsoleReporter: [{
             module: 'good-squeeze',
@@ -25,10 +26,12 @@ if (process.env.SENTRY_DSN) {
                 dsn: process.env.SENTRY_DSN,
                 config: {
                     name: 'timelapse-api',
-                    logger: 'mySentryReporter',
+                    logger: 'default',
                     release,
-                    environment: process.env.NODE_ENV
-                }
+                    environment,
+                    tags: { git_commit: process.env.HEROKU_SLUG_COMMIT }
+                },
+                captureUncaught: true
             }]
         }];
 }
