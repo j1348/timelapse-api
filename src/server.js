@@ -12,7 +12,6 @@ const vision = require('vision');
 const version = require(path.join(__dirname, '../package')).version;
 const server = new Hapi.Server();
 
-
 // Expose database
 if (process.env.NODE_ENV === 'test') {
     server.database = database;
