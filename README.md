@@ -6,3 +6,6 @@
 This project is an API powered by [Hapi](https://hapijs.com/).
 
 You can check the [documentation](https://timelapse-api.herokuapp.com/documentation).
+
+It can perform simple task like user login and it can also manage a todolist for each user.
+
