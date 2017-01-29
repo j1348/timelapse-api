@@ -31,7 +31,9 @@
     "airbnb-base"
   ],
   "rules": {
-    "indent": 2,
+    "comma-dangle": [2, "never"],
+    "space-before-function-paren": ["error", "never"],
+    "indent": [2, 4],
     "no-console": 1
   }
 

@@ -22,9 +22,9 @@ server.connection({
     port: process.env.PORT || 7000,
     routes: {
         cors: {
-            origin: ['*'],
-        },
-    },
+            origin: ['*']
+        }
+    }
 });
 
 // load routes
@@ -34,7 +34,7 @@ const plugins = fs.readdirSync(path.join(__dirname, './entities'))
         register: require(`./entities/${entity}/${entity}-routes`),
         options: {
             database
-        },
+        }
     }));
 
 // Hapi Swagger
@@ -50,8 +50,8 @@ plugins.push({
         info: {
             title: 'Timelapse API Documentation',
             version
-        },
-    },
+        }
+    }
 });
 plugins.push({
     register: logs

@@ -8,7 +8,7 @@ function list(request, reply) {
     const userId = request.auth.credentials.id;
 
     this.model.findAsync({
-            owner: userId
+            owner: userId,
         })
         .then((todos) => {
             reply(todos);
@@ -25,7 +25,7 @@ function read(request, reply) {
 
     this.model.findOneAsync({
             _id: id,
-            owner: userId
+            owner: userId,
         })
         .then((todo) => {
             if (!todo) {

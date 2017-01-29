@@ -11,8 +11,8 @@ function read() {
                 .string()
                 .alphanum()
                 .regex(/^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i, '_id')
-                .required(),
-        },
+                .required()
+        }
     };
 }
 
@@ -40,8 +40,8 @@ function create() {
                 .min(6)
                 .max(50)
                 .trim()
-                .required(),
-        },
+                .required()
+        }
     };
 }
 
@@ -55,8 +55,8 @@ function login() {
             password: Joi
                 .string()
                 .trim()
-                .required(),
-        },
+                .required()
+        }
     };
 }
 
@@ -67,7 +67,7 @@ function update() {
                 .string()
                 .alphanum()
                 .regex(/^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i, '_id')
-                .required(),
+                .required()
         },
         payload: {
             name: Joi
@@ -91,8 +91,8 @@ function update() {
                 .min(6)
                 .max(50)
                 .trim()
-                .optional(),
-        },
+                .optional()
+        }
     };
 }
 
@@ -103,8 +103,8 @@ function destroy() {
                 .string()
                 .alphanum()
                 .regex(/^(?=[a-f\d]{24}$)(\d+[a-f]|[a-f]+\d)/i, '_id')
-                .required(),
-        },
+                .required()
+        }
     };
 }
 
@@ -114,7 +114,7 @@ const UserValidator = {
     create,
     login,
     update,
-    destroy,
+    destroy
 };
 
 module.exports = UserValidator;

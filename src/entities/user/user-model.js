@@ -5,27 +5,27 @@ const mongoose = require('mongoose');
 const Schema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
+        required: true
     },
     password: {
         type: String,
-        required: true,
+        required: true
     },
     username: {
         type: String,
         unique: true,
-        required: true,
+        required: true
     },
     email: {
         type: String,
         unique: true,
-        required: true,
+        required: true
     },
     recoveryCode: {
         type: String,
         unique: true,
-        default: shortid.generate,
-    },
+        default: shortid.generate
+    }
 });
 
 function hashPassword(password) {

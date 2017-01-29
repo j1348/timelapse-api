@@ -5,19 +5,19 @@ const version = require(path.join(__dirname, '../package')).version;
 const release = process.env.HEROKU_RELEASE_VERSION || version;
 const reporters = {
     myConsoleReporter: [{
-            module: 'good-squeeze',
-            name: 'Squeeze',
-            args: [{
-                error: '*',
-                log: '*',
-                response: '*',
-                request: '*'
-            }],
-        }, {
-            module: 'good-console',
-        },
-        'stdout',
-    ],
+        module: 'good-squeeze',
+        name: 'Squeeze',
+        args: [{
+            error: '*',
+            log: '*',
+            response: '*',
+            request: '*'
+        }]
+    }, {
+        module: 'good-console'
+    },
+        'stdout'
+    ]
 };
 
 // if (process.env.SENTRY_DSN) {
@@ -47,13 +47,13 @@ exports.register = (server, options, next) => {
         options: {
             reporters,
             ops: {
-                interval: 1000,
-            },
-        },
+                interval: 1000
+            }
+        }
     }, err => next(err));
 };
 
 exports.register.attributes = {
     name: 'logs',
-    version: '1.0.0',
+    version: '1.0.0'
 };

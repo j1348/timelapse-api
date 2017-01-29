@@ -11,16 +11,16 @@ exports.register = (server, options, next) => {
         path: '/user/{id}',
         config: {
             handler: controller.read,
-            validate: Validator.read(),
-        },
+            validate: Validator.read()
+        }
     }, {
         method: 'POST',
         path: '/user',
         config: {
             auth: false,
             handler: controller.create,
-            validate: Validator.create(),
-        },
+            validate: Validator.create()
+        }
     }, {
         method: 'POST',
         path: '/user/login',
@@ -29,24 +29,24 @@ exports.register = (server, options, next) => {
             description: 'login access',
             notes: 'Allow an user to connect',
             auth: false,
-            handler: controller.login,
+            handler: controller.login
             /* ,
                    validate: Validator.login()*/
-        },
+        }
     }, {
         method: 'PUT',
         path: '/user/{id?}',
         config: {
             handler: controller.update,
-            validate: Validator.update(),
-        },
+            validate: Validator.update()
+        }
     }, {
         method: 'DELETE',
         path: '/user/{id?}',
         config: {
             handler: controller.destroy,
-            validate: Validator.destroy(),
-        },
+            validate: Validator.destroy()
+        }
     }, ];
 
     if (process.env.NODE_ENV === 'test') {
@@ -59,8 +59,8 @@ exports.register = (server, options, next) => {
                 notes: 'get user list',
                 auth: false,
                 handler: controller.list,
-                validate: Validator.list(),
-            },
+                validate: Validator.list()
+            }
         });
     }
 
@@ -71,5 +71,5 @@ exports.register = (server, options, next) => {
 
 exports.register.attributes = {
     name: 'user-route',
-    version: '1.0.0',
+    version: '1.0.0'
 };

@@ -27,7 +27,7 @@ exports.register = (server, options, next) => {
             validateFunc: validate,
             verifyOptions: {
                 algorithms: ['HS256']
-            },
+            }
         });
 
         server.auth.default('jwt');
@@ -39,5 +39,5 @@ exports.register = (server, options, next) => {
 
 exports.register.attributes = {
     name: 'auth-jwt',
-    version: '1.0.0',
+    version: '1.0.0'
 };

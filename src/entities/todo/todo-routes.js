@@ -14,8 +14,8 @@ exports.register = (server, options, next) => {
             description: 'get all todos',
             notes: 'blablabla',
             handler: controller.list,
-            validate: Validator.list(),
-        },
+            validate: Validator.list()
+        }
     }, {
         method: 'GET',
         path: '/todo/{id}',
@@ -24,8 +24,8 @@ exports.register = (server, options, next) => {
             description: 'get one todo from id',
             notes: 'blablabla',
             handler: controller.read,
-            validate: Validator.read(),
-        },
+            validate: Validator.read()
+        }
     }, {
         method: 'POST',
         path: '/todo',
@@ -34,8 +34,8 @@ exports.register = (server, options, next) => {
             description: 'create a new todo',
             notes: 'blablabla',
             handler: controller.create,
-            validate: Validator.create(),
-        },
+            validate: Validator.create()
+        }
     }, {
         method: 'PUT',
         path: '/todo/{id?}',
@@ -44,8 +44,8 @@ exports.register = (server, options, next) => {
             description: 'update an existing todo',
             notes: 'blablabla',
             handler: controller.update,
-            validate: Validator.update(),
-        },
+            validate: Validator.update()
+        }
     }, {
         method: 'DELETE',
         path: '/todo/{id?}',
@@ -54,8 +54,8 @@ exports.register = (server, options, next) => {
             description: 'delete an existing todo',
             notes: 'blablabla',
             handler: controller.destroy,
-            validate: Validator.destroy(),
-        },
+            validate: Validator.destroy()
+        }
     }, ]);
 
     next();
@@ -63,5 +63,5 @@ exports.register = (server, options, next) => {
 
 exports.register.attributes = {
     name: 'todo-route',
-    version: '1.0.0',
+    version: '1.0.0'
 };

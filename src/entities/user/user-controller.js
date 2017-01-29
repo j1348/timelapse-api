@@ -9,7 +9,7 @@ function getToken(id) {
     const secretKey = process.env.JWT || 'stubJWT';
 
     return jwt.sign({
-        id,
+        id
     }, secretKey, {
         expiresIn: '18h'
     });
@@ -55,7 +55,7 @@ function create(request, reply) {
             const token = getToken(user.id);
 
             reply({
-                token,
+                token
             }).code(201);
         })
         .catch((err) => {
@@ -131,7 +131,7 @@ UserController.prototype = {
     create,
     login,
     update,
-    destroy,
+    destroy
 };
 
 module.exports = UserController;
