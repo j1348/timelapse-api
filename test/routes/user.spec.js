@@ -10,111 +10,111 @@ const payload = {
 };
 
 describe('Routes /user', () => {
-    //   describe('GET /user', () => {
-    //       beforeEach((done) => {
-    //           db.User.removeAsync({})
-    //               .then(() => {
-    //                   const options = {
-    //                       method: 'POST',
-    //                       url: '/user',
-    //                       payload
-    //                   };
+    describe('GET /user', () => {
+        beforeEach((done) => {
+            db.User.removeAsync({})
+                .then(() => {
+                    const options = {
+                        method: 'POST',
+                        url: '/user',
+                        payload
+                    };
 
-    //                   server.inject(options, (response) => {});
-    //                   done();
-    //               });
-    //       });
+                    server.inject(options, (response) => {});
+                    done();
+                });
+        });
 
-    //       it('return 200 HTTP status code', (done) => {
-    //           const options = {
-    //               method: 'GET',
-    //               url: '/user'
-    //           };
-    //           server.inject(options, (response) => {
-    //               expect(response).to.have.property('statusCode', 200);
-    //               done();
-    //           });
-    //       });
-    //   });
+        it('return 200 HTTP status code', (done) => {
+            const options = {
+                method: 'GET',
+                url: '/user'
+            };
+            server.inject(options, (response) => {
+                expect(response).to.have.property('statusCode', 200);
+                done();
+            });
+        });
+    });
 
-    //   describe('POST /user/login', () => {
-    //       beforeEach((done) => {
-    //           db.User.removeAsync({})
-    //               .then(() => {
-    //                   const options = {
-    //                       method: 'POST',
-    //                       url: '/user',
-    //                       payload: {
-    //                           name: 'User',
-    //                           password: '12345678',
-    //                           username: 'user',
-    //                           email: 'user@example.com',
-    //                       }
-    //                   };
+    describe('POST /user/login', () => {
+        beforeEach((done) => {
+            db.User.removeAsync({})
+                .then(() => {
+                    const options = {
+                        method: 'POST',
+                        url: '/user',
+                        payload: {
+                            name: 'User',
+                            password: '12345678',
+                            username: 'user',
+                            email: 'user@example.com',
+                        }
+                    };
 
-    //                   server.inject(options, (response) => {});
-    //                   done();
-    //               });
-    //       });
+                    server.inject(options, (response) => {});
+                    done();
+                });
+        });
 
-    //       it('return 400 HTTP status code', (done) => {
-    //           const options = {
-    //               method: 'POST',
-    //               url: '/user/login',
-    //               payload: {
+        it('return 400 HTTP status code', (done) => {
+            const options = {
+                method: 'POST',
+                url: '/user/login',
+                payload: {
 
-    //               }
-    //           };
+                }
+            };
 
-    //           server.inject(options, (response) => {
-    //               expect(response).to.have.property('statusCode', 400);
-    //               done();
-    //           });
-    //       });
+            server.inject(options, (response) => {
+                expect(response).to.have.property('statusCode', 400);
+                done();
+            });
+        });
 
-    //       it('return 401 HTTP status code', (done) => {
-    //           const options = {
-    //               method: 'POST',
-    //               url: '/user/login',
-    //               payload: {
-    //                   email: 'user@example.com',
-    //                   password: 'wrongpassword',
-    //               }
-    //           };
+        it('return 401 HTTP status code', (done) => {
+            const options = {
+                method: 'POST',
+                url: '/user/login',
+                payload: {
+                    email: 'user@example.com',
+                    password: 'wrongpassword',
+                }
+            };
 
-    //           server.inject(options, (response) => {
-    //               expect(response).to.have.property('statusCode', 401);
-    //               done();
-    //           });
-    //       });
-    //   });
+            server.inject(options, (response) => {
+                expect(response).to.have.property('statusCode', 401);
+                done();
+            });
+        });
+    });
 
-    //   /*  it('return an empty array when users is empty', (done) => {
-    //     db.User.remove(() => {
-    //       let options = {method: 'GET', url: '/user'};
-    //       server.inject(options, (response) => {
-    //         expect(response).to.have.property('result');
-    //         expect(response.result).to.have.length.least(0);
-    //         done();
-    //       });
-    //     });
-    //   });
+    /*  it('return an empty array when users is empty', (done) => {
+        db.User.remove(() => {
+          let options = {method: 'GET', url: '/user'};
+          server.inject(options, (response) => {
+            expect(response).to.have.property('result');
+            expect(response.result).to.have.length.least(0);
+            done();
+          });
+        });
+      });
 
-    //   it('return 5 users at a time', (done) => {
-    //     const options = {method: 'GET', url: '/user'};
-    //     server.inject(options, (response) => {
-    //       expect(response).to.have.property('result');
-    //       expect(response.result).to.have.length.least(5);
-    //       for (let i = 0; i < 5; i++) {
-    //         let user = response.result[i];
-    //         expect(user).to.have.property('name', 'User ' + i);
-    //         expect(user).to.have.property('username', 'user_' + i);
-    //         expect(user).to.have.property('email', 'user_' + i + '@example.com');
-    //       }
-    //       done();
-    //     });
-    //   });
-    // });*/
+      it('return 5 users at a time', (done) => {
+        const options = {method: 'GET', url: '/user'};
+        server.inject(options, (response) => {
+          expect(response).to.have.property('result');
+          expect(response.result).to.have.length.least(5);
+          for (let i = 0; i < 5; i++) {
+            let user = response.result[i];
+            expect(user).to.have.property('name', 'User ' + i);
+            expect(user).to.have.property('username', 'user_' + i);
+            expect(user).to.have.property('email', 'user_' + i + '@example.com');
+          }
+          done();
+        });
+      });
+    });*/
 
     describe('GET /user/{id}', () => {
         let token;
@@ -243,7 +243,9 @@ describe('Routes /user', () => {
             });
 
             it('is redirect to the front, with a good verifyToken', (done) => {
-                const verifyToken = jwt.sign({ recoveryCode }, process.env.THIRD_PARTY_JWT || 'stubThirdParyJWT');
+                const verifyToken = jwt.sign({
+                    recoveryCode
+                }, process.env.THIRD_PARTY_JWT || 'stubThirdParyJWT');
                 const options = {
                     method: 'GET',
                     url: '/user/verify/' + verifyToken,
