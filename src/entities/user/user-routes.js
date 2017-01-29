@@ -10,6 +10,7 @@ exports.register = (server, options, next) => {
         method: 'GET',
         path: '/user/{id}',
         config: {
+            tags: ['api'], // ADD THIS TAG
             handler: controller.read,
             validate: Validator.read()
         }
@@ -17,6 +18,8 @@ exports.register = (server, options, next) => {
         method: 'GET',
         path: '/user/verify/{verifyToken}',
         config: {
+            auth: false,
+            tags: ['api'], // ADD THIS TAG
             handler: controller.verify,
             validate: Validator.verify()
         }
@@ -60,7 +63,6 @@ exports.register = (server, options, next) => {
             method: 'GET',
             path: '/user',
             config: {
-                tags: ['api'], // ADD THIS TAG
                 description: 'get user list',
                 notes: 'get user list',
                 auth: false,
