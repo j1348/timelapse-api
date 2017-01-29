@@ -14,48 +14,59 @@ const server = new Hapi.Server();
 
 // Expose database
 if (process.env.NODE_ENV === 'test') {
-  server.database = database;
+    server.database = database;
 }
 
 server.connection({
-  host: '0.0.0.0',
-  port: process.env.PORT || 7000,
-  routes: {
-    cors: {
-      origin: ['*'],
+    host: '0.0.0.0',
+    port: process.env.PORT || 7000,
+    routes: {
+        cors: {
+            origin: ['*'],
+        },
     },
-  },
 });
 
 // load routes
 const plugins = fs.readdirSync(path.join(__dirname, './entities'))
-        .filter(dir => dir.match(/^[^.]/))
-        .map(entity => ({
-          register: require(`./entities/${entity}/${entity}-routes`),
-          options: {
-            database,
-          },
-        }));
+    .filter(dir => dir.match(/^[^.]/))
+    .map(entity => ({
+        register: require(`./entities/${entity}/${entity}-routes`),
+        options: {
+            database
+        },
+    }));
 
 // Hapi Swagger
-plugins.push({ register: inert });
-plugins.push({ register: vision });
-plugins.push({ register: HapiSwagger,
-  options: {
-    info: {
-      title: 'Timelapse API Documentation',
-      version,
-    },
-  },
+plugins.push({
+    register: inert
 });
-plugins.push({ register: logs });
-plugins.push({ register: auth });
-plugins.push({ register: boomDecorators });
+plugins.push({
+    register: vision
+});
+plugins.push({
+    register: HapiSwagger,
+    options: {
+        info: {
+            title: 'Timelapse API Documentation',
+            version
+        },
+    },
+});
+plugins.push({
+    register: logs
+});
+plugins.push({
+    register: auth
+});
+plugins.push({
+    register: boomDecorators
+});
 
 server.register(plugins, (err) => {
-  if (err) {
-    throw err;
-  }
+    if (err) {
+        throw err;
+    }
 
     // server.start((err) => {
 
