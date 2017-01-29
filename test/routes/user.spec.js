@@ -10,6 +10,10 @@ const payload = {
 };
 
 describe('Routes /user', () => {
+    let token;
+    let userInfo;
+    let recoveryCode;
+
     describe('GET /user', () => {
         beforeEach((done) => {
             db.User.removeAsync({})
@@ -20,8 +24,11 @@ describe('Routes /user', () => {
                         payload
                     };
 
-                    server.inject(options, (response) => {});
-                    done();
+                    server.inject(options, (response) => {
+                        token = response.result.token;
+                        userInfo = jwt.verify(token, process.env.JWT || 'stubJWT');
+                        done();
+                    });
                 });
         });
 
@@ -38,24 +45,6 @@ describe('Routes /user', () => {
     });
 
     describe('POST /user/login', () => {
-        beforeEach((done) => {
-            db.User.removeAsync({})
-                .then(() => {
-                    const options = {
-                        method: 'POST',
-                        url: '/user',
-                        payload: {
-                            name: 'User',
-                            password: '12345678',
-                            username: 'user',
-                            email: 'user@example.com',
-                        }
-                    };
-
-                    server.inject(options, (response) => {});
-                    done();
-                });
-        });
 
         it('return 400 HTTP status code', (done) => {
             const options = {
@@ -117,26 +106,6 @@ describe('Routes /user', () => {
     });*/
 
     describe('GET /user/{id}', () => {
-        let token;
-        let userInfo;
-        let recoveryCode;
-
-        before((done) => {
-            db.User.removeAsync({})
-                .then(() => {
-                    const options = {
-                        method: 'POST',
-                        url: '/user',
-                        payload
-                    };
-
-                    server.inject(options, (response) => {
-                        token = response.result.token;
-                        userInfo = jwt.verify(token, process.env.JWT || 'stubJWT');
-                        done();
-                    });
-                });
-        });
 
         describe('when user is not authenticated', () => {
             it('returns 401 HTTP status code', (done) => {
@@ -227,31 +196,29 @@ describe('Routes /user', () => {
 
         describe('when a user verify his account', () => {
 
-            it('is get an error with bad verifyToken', (done) => {
-                const options = {
-                    method: 'GET',
-                    url: '/user/verify/12',
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    }
-                };
+            // it('is get an error with bad verifyToken', (done) => {
+            //     const options = {
+            //         method: 'GET',
+            //         url: '/user/verify/12',
+            //         headers: {
+            //             'Authorization': 'Bearer ' + token
+            //         }
+            //     };
 
-                server.inject(options, (response) => {
-                    expect(response).to.have.property('statusCode', 500);
-                    done();
-                });
-            });
+            //     server.inject(options, (response) => {
+            //         expect(response).to.have.property('statusCode', 500);
+            //         done();
+            //     });
+            // });
 
             it('is redirect to the front, with a good verifyToken', (done) => {
                 const verifyToken = jwt.sign({
                     recoveryCode
-                }, process.env.THIRD_PARTY_JWT || 'stubThirdParyJWT');
+                }, process.env.JWT || 'stubJWT');
+
                 const options = {
                     method: 'GET',
-                    url: '/user/verify/' + verifyToken,
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    }
+                    url: '/user/verify/' + verifyToken
                 };
 
                 server.inject(options, (response) => {

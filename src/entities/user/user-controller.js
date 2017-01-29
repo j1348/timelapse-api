@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const sender = require('../../amqp/sender');
 
 function UserController(db) {
     this.database = db;
@@ -26,6 +27,22 @@ function list(request, reply) {
         });
 }
 
+function addJobToQueue(name, user) {
+    const token = jwt.sign({ recoveryCode: user.recoveryCode }, process.env.JWT || 'stubJWT');
+
+    return sender
+        .send(process.env.CLOUDAMQP_URL, name, {
+            name: user.name,
+            username: user.username,
+            email: user.email,
+            verifyURL: `/user/verify/${token}`
+        })
+        .catch((err) => {
+            console.log(err);
+            console.error("unable to send message !!");
+        });
+}
+
 // [GET] /user/{id}
 function read(request, reply) {
     const id = request.params.id;
@@ -49,7 +66,7 @@ function read(request, reply) {
 // [GET] /user/verify/{verifyToken}
 function verify(request, reply) {
     try {
-        const { recoveryCode } = jwt.verify(request.params.verifyToken, process.env.THIRD_PARTY_JWT || 'stubThirdParyJWT');
+        const { recoveryCode } = jwt.verify(request.params.verifyToken, process.env.JWT || 'stubJWT');
         this.model.findOneAndUpdateAsync({
                 recoveryCode
             }, {
@@ -60,8 +77,13 @@ function verify(request, reply) {
                 new: true
             })
             .then((user) => {
-                const token = getToken(user.id);
-                return reply.redirect(`${process.env.FRONT_URI}/?token=${token}`);
+
+                if (user) {
+                    const token = getToken(user.id);
+                    return reply.redirect(`${process.env.FRONT_URI}/?token=${token}`);
+                }
+
+                reply.badImplementation('unable to find user with recoveryCode ' + recoveryCode);
             })
             .catch((err) => {
                 reply.badImplementation(err.message);
@@ -79,6 +101,8 @@ function create(request, reply) {
     this.model.createAsync(payload)
         .then((user) => {
             const token = getToken(user.id);
+
+            addJobToQueue('subscribe', user);
 
             reply({
                 token
