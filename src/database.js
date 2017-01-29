@@ -1,14 +1,15 @@
-const Promise = require('bluebird');
+const P = require('bluebird');
 const mongoose = require('mongoose');
 const path = require('path');
-
+const environment = process.env.NODE_ENV || 'development';
+const userModel = path.join(__dirname, 'entities/user/user-model');
+const todoModel = path.join(__dirname, 'entities/todo/todo-model');
 const db = {
-  User: Promise.promisifyAll(require(path.join(__dirname, 'entities/user/user-model'))),
-  Todo: Promise.promisifyAll(require(path.join(__dirname, 'entities/todo/todo-model'))),
+  User: P.promisifyAll(require(userModel)),
+  Todo: P.promisifyAll(require(todoModel)),
 };
 
-// connect to the database
-mongoose.connect(process.env.MONGODB);
+mongoose.connect(environment == 'test' ? process.env.MONGODB_TEST : process.env.MONGODB);
 
 function onDatabaseConnection() {
   console.log('Database connection is open!');
