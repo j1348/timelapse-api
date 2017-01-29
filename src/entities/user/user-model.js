@@ -25,6 +25,10 @@ const Schema = new mongoose.Schema({
         type: String,
         unique: true,
         default: shortid.generate
+    },
+    active: {
+        type: Boolean,
+        default: false
     }
 });
 

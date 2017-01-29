@@ -14,6 +14,13 @@ exports.register = (server, options, next) => {
             validate: Validator.read()
         }
     }, {
+        method: 'GET',
+        path: '/user/verify/{verifyToken}',
+        config: {
+            handler: controller.verify,
+            validate: Validator.verify()
+        }
+    }, {
         method: 'POST',
         path: '/user',
         config: {

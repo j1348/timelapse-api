@@ -46,6 +46,32 @@ function read(request, reply) {
         });
 }
 
+// [GET] /user/verify/{verifyToken}
+function verify(request, reply) {
+    try {
+        const { recoveryCode } = jwt.verify(request.params.verifyToken, process.env.THIRD_PARTY_JWT || 'stubThirdParyJWT');
+        this.model.findOneAndUpdateAsync({
+                recoveryCode
+            }, {
+                $set: {
+                    active: true
+                }
+            }, {
+                new: true
+            })
+            .then((user) => {
+                const token = getToken(user.id);
+                return reply.redirect(`${process.env.FRONT_URI}/?token=${token}`);
+            })
+            .catch((err) => {
+                reply.badImplementation(err.message);
+            });
+    }
+    catch (e) {
+        reply.badImplementation(e.message);
+    }
+}
+
 // [POST] /user
 function create(request, reply) {
     const payload = request.payload;
@@ -124,6 +150,7 @@ function destroy(request, reply) {
 UserController.prototype = {
     list,
     read,
+    verify,
     create,
     login,
     update,

@@ -16,6 +16,16 @@ function read() {
     };
 }
 
+function verify() {
+    return {
+        params: {
+            verifyToken: Joi
+                .string()
+                .required()
+        }
+    };
+}
+
 function create() {
     return {
         payload: {
@@ -111,6 +121,7 @@ function destroy() {
 const UserValidator = {
     list,
     read,
+    verify,
     create,
     login,
     update,
