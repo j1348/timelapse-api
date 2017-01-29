@@ -29,9 +29,8 @@ exports.register = (server, options, next) => {
             description: 'login access',
             notes: 'Allow an user to connect',
             auth: false,
-            handler: controller.login
-            /* ,
-                   validate: Validator.login()*/
+            handler: controller.login,
+            validate: Validator.login()
         }
     }, {
         method: 'PUT',
@@ -65,7 +64,6 @@ exports.register = (server, options, next) => {
     }
 
     server.route(routes);
-
     next();
 };
 

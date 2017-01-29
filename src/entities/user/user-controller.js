@@ -72,10 +72,6 @@ function login(request, reply) {
             email: credentials.email
         })
         .then((user) => {
-            if (!user) {
-                return reply.unauthorized('Email or Password invalid');
-            }
-
             if (!user.validatePassword(credentials.password)) {
                 return reply.unauthorized('Email or Password invalid');
             }

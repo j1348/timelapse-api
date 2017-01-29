@@ -4,77 +4,91 @@
 let jwt = require('jsonwebtoken');
 
 describe('Routes /user', () => {
-  describe('GET /user', () => {
-    beforeEach((done) => {
-      db.User.removeAsync({})
-      .then(() => {
-        const options = {
-          method: 'POST',
-          url: '/user',
-          payload: {
-            name: 'User',
-            password: '12345678',
-            username: 'user',
-            email: 'user@example.com',
-          }
-        };
+    describe('GET /user', () => {
+        beforeEach((done) => {
+            db.User.removeAsync({})
+                .then(() => {
+                    const options = {
+                        method: 'POST',
+                        url: '/user',
+                        payload: {
+                            name: 'User',
+                            password: '12345678',
+                            username: 'user',
+                            email: 'user@example.com',
+                        }
+                    };
 
-        server.inject(options, (response) => {});
-        done();
-      });
+                    server.inject(options, (response) => {});
+                    done();
+                });
+        });
+
+        it('return 200 HTTP status code', (done) => {
+            const options = {
+                method: 'GET',
+                url: '/user'
+            };
+            server.inject(options, (response) => {
+                expect(response).to.have.property('statusCode', 200);
+                done();
+            });
+        });
     });
 
-    it('return 200 HTTP status code', (done) => {
-      db.User.remove(() => {
-        const options = {method: 'GET', url: '/user'};
-        server.inject(options, (response) => {
-          expect(response).to.have.property('statusCode', 200);
-          done();
+    describe('POST /user/login', () => {
+        beforeEach((done) => {
+            db.User.removeAsync({})
+                .then(() => {
+                    const options = {
+                        method: 'POST',
+                        url: '/user',
+                        payload: {
+                            name: 'User',
+                            password: '12345678',
+                            username: 'user',
+                            email: 'user@example.com',
+                        }
+                    };
+
+                    server.inject(options, (response) => {});
+                    done();
+                });
         });
-      });
+
+        it('return 400 HTTP status code', (done) => {
+            const options = {
+                method: 'POST',
+                url: '/user/login',
+                payload: {
+
+                }
+            };
+
+            server.inject(options, (response) => {
+                expect(response).to.have.property('statusCode', 400);
+                done();
+            });
+        });
+
+        it('return 401 HTTP status code', (done) => {
+            const options = {
+                method: 'POST',
+                url: '/user/login',
+                payload: {
+                    email: 'user@example.com',
+                    password: 'wrongpassword',
+                }
+            };
+
+            server.inject(options, (response) => {
+                expect(response).to.have.property('statusCode', 401);
+                done();
+            });
+        });
     });
-  });
 
-  // describe('POST /user/login', () => {
-  //   it('return 400 HTTP status code', (done) => {
-  //     db.User.remove(() => {
-  //       const options = {
-  //         method: 'POST',
-  //         url: '/user/login',
-  //         payload: {
-
-  //         }
-  //       };
-
-  //       server.inject(options, (response) => {
-  //         expect(response).to.have.property('statusCode', 400);
-  //         done();
-  //       });
-  //     });
-  //   });
-/*
-    it('return 401 HTTP status code', (done) => {
-      db.User.remove(() => {
-        const options = {
-          method: 'POST',
-          url: '/user/login',
-          payload: {
-            name: 'Jack Bauer',
-            username: 'jack_b',
-            email: 'jbauer@24hours.com',
-            password: '#24hoursRescuePresident'
-          }
-        };
-
-        server.inject(options, (response) => {
-          expect(response).to.have.property('statusCode', 401);
-          done();
-        });
-      });
-    });*/
-  // });
-
-  /*  it('return an empty array when users is empty', (done) => {
+    /*  it('return an empty array when users is empty', (done) => {
       db.User.remove(() => {
         let options = {method: 'GET', url: '/user'};
         server.inject(options, (response) => {
@@ -701,177 +715,177 @@ describe('Routes /user', () => {
     });
   });
 */
-/***********
-  describe('POST /user/login', () => {
-    before((done) => {
-      db.User.removeAsync({})
-      .then(() => {
-        const options = {
-          method: 'POST',
-          url: '/user',
-          payload: {
-            name: 'Jack Bauer',
-            username: 'jack_b',
-            email: 'jbauer@24hours.com',
-            password: '#24hoursRescuePresident'
-          }
-        };
+    /***********
+      describe('POST /user/login', () => {
+        before((done) => {
+          db.User.removeAsync({})
+          .then(() => {
+            const options = {
+              method: 'POST',
+              url: '/user',
+              payload: {
+                name: 'Jack Bauer',
+                username: 'jack_b',
+                email: 'jbauer@24hours.com',
+                password: '#24hoursRescuePresident'
+              }
+            };
 
-        server.inject(options, (response) => {
-          done();
+            server.inject(options, (response) => {
+              done();
+            });
+          });
+        });
+
+        it('returns 400 HTTP status code when no `email` is send', (done) => {
+          const options = {
+            method: 'POST',
+            url: '/user/login',
+            payload: {}
+          };
+          server.inject(options, (response) => {
+            expect(response).to.have.property('statusCode', 400);
+            expect(response).to.have.property('result');
+            expect(response.result).to.have.property('statusCode', 400);
+            expect(response.result).to.have.property('error', 'Bad Request');
+            expect(response.result).to.have.property('message', 'child "email" fails because ["email" is required]');
+            done();
+          });
+        });
+
+        it('returns 400 HTTP status code when no `password` is send', (done) => {
+          const options = {
+            method: 'POST',
+            url: '/user/login',
+            payload: {email: 'jack@24h.com'}
+          };
+          server.inject(options, (response) => {
+            expect(response).to.have.property('statusCode', 400);
+            expect(response).to.have.property('result');
+            expect(response.result).to.have.property('statusCode', 400);
+            expect(response.result).to.have.property('error', 'Bad Request');
+            expect(response.result).to.have.property('message', 'child "password" fails because ["password" is required]');
+            done();
+          });
+        });
+
+        it('returns 400 HTTP status code when `email` is invalid', (done) => {
+          const options = {
+            method: 'POST',
+            url: '/user/login',
+            payload: {email: 'jack'}
+          };
+          server.inject(options, (response) => {
+            expect(response).to.have.property('statusCode', 400);
+            expect(response).to.have.property('result');
+            expect(response.result).to.have.property('statusCode', 400);
+            expect(response.result).to.have.property('error', 'Bad Request');
+            expect(response.result).to.have.property('message', 'child "email" fails because ["email" must be a valid email]');
+            done();
+          });
+        });
+
+        it('returns 401 HTTP status code when `email` isn`t in our base', (done) => {
+          const options = {
+            method: 'POST',
+            url: '/user/login',
+            payload: {email: 'jack_b@24h.com', password: 'd'}
+          };
+          server.inject(options, (response) => {
+            expect(response).to.have.property('statusCode', 401);
+            expect(response).to.have.property('result');
+            expect(response.result).to.have.property('statusCode', 401);
+            expect(response.result).to.have.property('error', 'Unauthorized');
+            expect(response.result).to.have.property('message', 'Email or Password invalid');
+            done();
+          });
+        });
+
+        it('returns 401 HTTP status code when `password` is incorrect for this user', (done) => {
+          const options = {
+            method: 'POST',
+            url: '/user/login',
+            payload: {email: 'jbauer@24h.com', password: 'mmm'}
+          };
+          server.inject(options, (response) => {
+            expect(response).to.have.property('statusCode', 401);
+            expect(response).to.have.property('result');
+            expect(response.result).to.have.property('statusCode', 401);
+            expect(response.result).to.have.property('error', 'Unauthorized');
+            expect(response.result).to.have.property('message', 'Email or Password invalid');
+            done();
+          });
+        });
+
+        it('returns 200 HTTP status code when success login', (done) => {
+          const options = {
+            method: 'POST',
+            url: '/user/login',
+            payload: {email: 'jbauer@24hours.com', password: '#24hoursRescuePresident'}
+          };
+          server.inject(options, (response) => {
+            expect(response).to.have.property('statusCode', 200);
+            expect(response).to.have.property('result');
+            expect(response.result).to.have.property('token');
+            done();
+          });
         });
       });
-    });
+    *********/
+    /*
+      describe('DELETE /user/{id}', () => {
+        let userInfo;
+        let token;
+        before((done) => {
+          db.User.removeAsync({})
+          .then(() => {
+            const options = {
+              method: 'POST',
+              url: '/user',
+              payload: {
+                name: 'Jack Bauer',
+                username: 'jack_b',
+                email: 'jbauer@24hours.com',
+                password: '#24hoursRescuePresident'
+              }
+            };
 
-    it('returns 400 HTTP status code when no `email` is send', (done) => {
-      const options = {
-        method: 'POST',
-        url: '/user/login',
-        payload: {}
-      };
-      server.inject(options, (response) => {
-        expect(response).to.have.property('statusCode', 400);
-        expect(response).to.have.property('result');
-        expect(response.result).to.have.property('statusCode', 400);
-        expect(response.result).to.have.property('error', 'Bad Request');
-        expect(response.result).to.have.property('message', 'child "email" fails because ["email" is required]');
-        done();
-      });
-    });
-
-    it('returns 400 HTTP status code when no `password` is send', (done) => {
-      const options = {
-        method: 'POST',
-        url: '/user/login',
-        payload: {email: 'jack@24h.com'}
-      };
-      server.inject(options, (response) => {
-        expect(response).to.have.property('statusCode', 400);
-        expect(response).to.have.property('result');
-        expect(response.result).to.have.property('statusCode', 400);
-        expect(response.result).to.have.property('error', 'Bad Request');
-        expect(response.result).to.have.property('message', 'child "password" fails because ["password" is required]');
-        done();
-      });
-    });
-
-    it('returns 400 HTTP status code when `email` is invalid', (done) => {
-      const options = {
-        method: 'POST',
-        url: '/user/login',
-        payload: {email: 'jack'}
-      };
-      server.inject(options, (response) => {
-        expect(response).to.have.property('statusCode', 400);
-        expect(response).to.have.property('result');
-        expect(response.result).to.have.property('statusCode', 400);
-        expect(response.result).to.have.property('error', 'Bad Request');
-        expect(response.result).to.have.property('message', 'child "email" fails because ["email" must be a valid email]');
-        done();
-      });
-    });
-
-    it('returns 401 HTTP status code when `email` isn`t in our base', (done) => {
-      const options = {
-        method: 'POST',
-        url: '/user/login',
-        payload: {email: 'jack_b@24h.com', password: 'd'}
-      };
-      server.inject(options, (response) => {
-        expect(response).to.have.property('statusCode', 401);
-        expect(response).to.have.property('result');
-        expect(response.result).to.have.property('statusCode', 401);
-        expect(response.result).to.have.property('error', 'Unauthorized');
-        expect(response.result).to.have.property('message', 'Email or Password invalid');
-        done();
-      });
-    });
-
-    it('returns 401 HTTP status code when `password` is incorrect for this user', (done) => {
-      const options = {
-        method: 'POST',
-        url: '/user/login',
-        payload: {email: 'jbauer@24h.com', password: 'mmm'}
-      };
-      server.inject(options, (response) => {
-        expect(response).to.have.property('statusCode', 401);
-        expect(response).to.have.property('result');
-        expect(response.result).to.have.property('statusCode', 401);
-        expect(response.result).to.have.property('error', 'Unauthorized');
-        expect(response.result).to.have.property('message', 'Email or Password invalid');
-        done();
-      });
-    });
-
-    it('returns 200 HTTP status code when success login', (done) => {
-      const options = {
-        method: 'POST',
-        url: '/user/login',
-        payload: {email: 'jbauer@24hours.com', password: '#24hoursRescuePresident'}
-      };
-      server.inject(options, (response) => {
-        expect(response).to.have.property('statusCode', 200);
-        expect(response).to.have.property('result');
-        expect(response.result).to.have.property('token');
-        done();
-      });
-    });
-  });
-*********/
-/*
-  describe('DELETE /user/{id}', () => {
-    let userInfo;
-    let token;
-    before((done) => {
-      db.User.removeAsync({})
-      .then(() => {
-        const options = {
-          method: 'POST',
-          url: '/user',
-          payload: {
-            name: 'Jack Bauer',
-            username: 'jack_b',
-            email: 'jbauer@24hours.com',
-            password: '#24hoursRescuePresident'
-          }
-        };
-
-        server.inject(options, (response) => {
-          token = response.result.token;
-          userInfo = jwt.verify(token, process.env.JWT);
-          done();
+            server.inject(options, (response) => {
+              token = response.result.token;
+              userInfo = jwt.verify(token, process.env.JWT);
+              done();
+            });
+          });
         });
-      });
-    });
 
-    it('returns 400 HTTP status code when no `id` is send', (done) => {
-      const options = {
-        method: 'DELETE',
-        url: '/user',
-        headers: {'Authorization': 'Bearer ' + token}
-      };
-      server.inject(options, (response) => {
-        expect(response).to.have.property('statusCode', 400);
-        expect(response).to.have.property('result');
-        expect(response.result).to.have.property('statusCode', 400);
-        expect(response.result).to.have.property('error', 'Bad Request');
-        expect(response.result).to.have.property('message', 'child "id" fails because ["id" is required]');
-        done();
-      });
-    });
+        it('returns 400 HTTP status code when no `id` is send', (done) => {
+          const options = {
+            method: 'DELETE',
+            url: '/user',
+            headers: {'Authorization': 'Bearer ' + token}
+          };
+          server.inject(options, (response) => {
+            expect(response).to.have.property('statusCode', 400);
+            expect(response).to.have.property('result');
+            expect(response.result).to.have.property('statusCode', 400);
+            expect(response.result).to.have.property('error', 'Bad Request');
+            expect(response.result).to.have.property('message', 'child "id" fails because ["id" is required]');
+            done();
+          });
+        });
 
-    it('returns 200 HTTP status code when record is deleted', (done) => {
-      const options = {
-        method: 'DELETE',
-        url: '/user/' + userInfo.id,
-        headers: {'Authorization': 'Bearer ' + token}
-      };
-      server.inject(options, (response) => {
-        expect(response).to.have.property('statusCode', 200);
-        expect(response).to.have.property('result');
-        expect(response.result).to.be.empty;
-        done();
-      });
-    });
-  });*/
+        it('returns 200 HTTP status code when record is deleted', (done) => {
+          const options = {
+            method: 'DELETE',
+            url: '/user/' + userInfo.id,
+            headers: {'Authorization': 'Bearer ' + token}
+          };
+          server.inject(options, (response) => {
+            expect(response).to.have.property('statusCode', 200);
+            expect(response).to.have.property('result');
+            expect(response.result).to.be.empty;
+            done();
+          });
+        });
+      });*/
 });
