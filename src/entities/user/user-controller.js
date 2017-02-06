@@ -80,7 +80,7 @@ function verify(request, reply) {
 
                 if (user) {
                     const token = getToken(user.id);
-                    return reply.redirect(`${process.env.FRONT_URI}/?token=${token}`);
+                    return reply.redirect(`${process.env.FRONT_URI}/#/token/${token}`);
                 }
 
                 reply.badImplementation('unable to find user with recoveryCode ' + recoveryCode);
@@ -122,12 +122,15 @@ function login(request, reply) {
             email: credentials.email
         })
         .then((user) => {
-            if (!user.validatePassword(credentials.password)) {
+            if (!user || !user.validatePassword(credentials.password)) {
                 return reply.unauthorized('Email or Password invalid');
             }
 
             const token = getToken(user.id);
-            return reply.redirect(`${process.env.FRONT_URI}/?token=${token}`);
+
+            reply({
+                token
+            }).code(201);
         })
         .catch((err) => {
             console.log('inside create => err');

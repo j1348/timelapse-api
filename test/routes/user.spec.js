@@ -25,6 +25,7 @@ describe('Routes /user', () => {
                     };
 
                     server.inject(options, (response) => {
+                        expect(response).to.have.property('statusCode', 201);
                         token = response.result.token;
                         userInfo = jwt.verify(token, process.env.JWT || 'stubJWT');
                         done();
