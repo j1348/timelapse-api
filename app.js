@@ -1,5 +1,5 @@
 const path = require('path');
-const server = require(path.join(__dirname, './server'));
+const server = require(path.join(__dirname, './src/server'));
 
 server.start((err) => {
     if (err) {
