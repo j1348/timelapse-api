@@ -13,7 +13,9 @@
     "test": "NODE_ENV=test ./node_modules/.bin/lab -l",
     "test:debug": "NODE_ENV=test node --inspect --debug-brk ./node_modules/lab/bin/lab -l",
     "start": "node app.js",
-    "start:debug": "NODE_ENV=test node app.js"
+    "start:debug": "NODE_ENV=test node app.js",
+    "snyk-protect": "snyk protect",
+    "prepare": "yarn run snyk-protect"
   },
   "author": "me@jfroffice.me",
   "license": "MIT",
@@ -37,7 +39,8 @@
     "kerberos": "^0.0.22",
     "mongoose": "^4.7.6",
     "shortid": "^2.2.6",
-    "vision": "^4.1.1"
+    "vision": "^4.1.1",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",
@@ -46,5 +49,6 @@
     "eslint-config-airbnb-base": "^11.0.1",
     "eslint-plugin-import": "^2.2.0",
     "lab": "^12.0.0"
-  }
+  },
+  "snyk": true
 }
