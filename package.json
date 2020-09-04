@@ -34,7 +34,7 @@
     "inert": "^4.1.0",
     "joi": "^10.2.0",
     "jsonwebtoken": "^7.2.1",
-    "kerberos": "^0.0.22",
+    "kerberos": "^1.0.0",
     "mongoose": "^4.7.6",
     "shortid": "^2.2.6",
     "vision": "^4.1.1"
