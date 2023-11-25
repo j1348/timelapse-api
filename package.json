@@ -28,7 +28,7 @@
     "good-sentry": "^1.0.3",
     "good-squeeze": "^5.0.1",
     "hapi": "^16.x.x",
-    "hapi-auth-jwt2": "^7.2.4",
+    "hapi-auth-jwt2": "^7.4.0",
     "hapi-boom-decorators": "^2.2.2",
     "hapi-swagger": "^7.6.0",
     "inert": "^4.1.0",
